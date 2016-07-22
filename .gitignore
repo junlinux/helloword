@@ -5,3 +5,9 @@
 ruby-gmail/
 
 ruby-2-1-8-rails-4-1-15/
+
+*.swp
+
+*.*~
+
+!*.md

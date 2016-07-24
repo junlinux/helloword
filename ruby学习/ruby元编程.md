@@ -9,7 +9,7 @@
 	- 白板类：删除继承来的方法，使其只包含需要的方法。从BasicObject继承来的类会自动成为白板类。
 	- Module#undef_method()方法删除所有的方法（包括继承），Module#remove_method()方法，只会删除接收者自己的方法。
 	- 动态代理(dynamic proxy)
-	| 一个捕获幽灵方法调用并把它们转发给另外一个对象的对象，称为动态代理
+	> 一个捕获幽灵方法调用并把它们转发给另外一个对象的对象，称为动态代理
 
 ### 第三章：代码块(**块是一种控制作用域的强大手段**)
 - 查看当前方法是否包含块，Kernel#block_given?()方法来做到。
@@ -45,4 +45,19 @@
 
 ### 第五章：编写代码的代码
 - eval()方法，Kernel#eval()方法会执行字符串中的代码，并返回执行结果。
-- 钩子方法
+- 可以使用Kernel#binding()方法来创建Binding对象，对于*eval()方法家族，可以给它们传递一个Binding对象作为额外的参数，代码就在这个作用域中执行
+- ruby安全级别，从默认的0到4，$SAFE
+- 操作实例变量：Object#instance_variable_get()方法和Object#instance_variable_set()方法，例：instance_variable_set("@#{str}",value)
+- 钩子方法(难)，是不是就是回掉的应用呢，当做某事时触发某个事件。
+	- inherited()方法是Class的一个实例方法，当类被继承时，ruby会调用这个方法。Class的实例方法就是类方法。
+	- 可以通过覆盖Module#included()方法在模块的生命周期中插入代码
+	- 可以通过环绕别名把一个普通的方法变成一个钩子方法
+	- 通过在eigenclass中包含一个模块来达到定义类方法
+- 类扩展混入：是类扩展与钩子方法的混合
+	- 定义一个模块，姑且叫MyMixin
+	- 在MyMixin中定义一个内部模块，并给它定义一些内部方法，这些方法最终会成为内方法
+	- 覆盖MyMixin#included()方法来用ClassMethods扩展包含者(使用extend()方法)
+
+***********
+
+### 第七章：ActiveRecord的设计
